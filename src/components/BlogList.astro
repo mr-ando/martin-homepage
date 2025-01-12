@@ -1,0 +1,11 @@
+---
+import { blogs } from "../blogposts/blogs.ts"
+---
+
+
+<ul>
+  These are the blogs you can view:
+  {blogs.map(b => {
+    return <a href={`blog/${b.number}`}>{b.title}</a>
+  })}
+</ul>
