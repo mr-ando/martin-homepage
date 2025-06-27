@@ -1,6 +1,6 @@
-// With `output: 'static'` configured:
-// export const prerender = false;
+
 import type { APIRoute } from "astro";
+export const prerender = false; // keeps the endpoint dynamic, everything else is prerendered
 
 export const GET: APIRoute = async ({ cookies, redirect }) => {
   cookies.delete("sb-access-token", { path: "/" });
