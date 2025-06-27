@@ -16,5 +16,6 @@ export default defineConfig({
   integrations: [tailwind(), react(), node({mode: 'standalone'})],
   adapter: node({
     mode: 'standalone'
-  })
+  }),
+  outDir: 'build'
 });
