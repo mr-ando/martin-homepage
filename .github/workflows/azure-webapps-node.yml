@@ -26,6 +26,8 @@ env:
   AZURE_WEBAPP_NAME: andorsen2    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: './dist'      # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '22'                # set this to the node version to use
+  PUBLIC_SUPABASE_URL: ${{ secrets.PUBLIC_SUPABASE_URL }} # set this to your Supabase URL
+  PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY
 
 permissions:
   contents: read
