@@ -11,5 +11,8 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "strict": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }

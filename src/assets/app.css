@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+@plugin "daisyui" {
+  themes:
+    light --default,
+    dark --prefersdark,
+    cupcake,
+    retro;
+}
+
+@theme {
+  --color-midnight: #121426;
+}
+
+html,
+body {
+  height: 100%;
+}
