@@ -1,7 +1,10 @@
 export async function createChatApi(chatName: string) {
-  const res = await fetch(`http://localhost:8080/api/chat/create/${chatName}`, {
-    method: 'POST',
-  });
+  const res = await fetch(
+    `${import.meta.env.PUBLIC_BASE_API_URL}/api/chat/create/${chatName}`,
+    {
+      method: 'POST',
+    }
+  );
 }
 
 interface ChatsResponse {
@@ -9,7 +12,7 @@ interface ChatsResponse {
 }
 
 export async function fetchChatsApi() {
-  const res = await fetch('http://localhost:8080/api/chats', {
+  const res = await fetch(`${import.meta.env.PUBLIC_BASE_API_URL}/api/chats`, {
     method: 'GET',
   })
     .then((res) => res.json())
@@ -22,16 +25,19 @@ export async function joinChatApi(
   clientName: string
 ): Promise<WebSocket> {
   const ws = new WebSocket(
-    `ws://localhost:8080/api/chat/join/${chatName}?clientName=${clientName}`
+    `ws://${import.meta.env.PUBLIC_BASE_WS_URL}/api/chat/join/${chatName}?clientName=${clientName}`
   );
 
   return ws;
 }
 
 export async function getChatApi(chatName: string): Promise<ChatInformation> {
-  const chatInfo = await fetch(`http://localhost:8080/api/chat/${chatName}`, {
-    method: 'GET',
-  })
+  const chatInfo = await fetch(
+    `${import.meta.env.PUBLIC_BASE_API_URL}/api/chat/${chatName}`,
+    {
+      method: 'GET',
+    }
+  )
     .then((res) => res.json())
     .then((res) => res as ChatInformation);
 
