@@ -15,10 +15,10 @@ func main() {
 	fmt.Println("Hello, World!")
 	chatOrchestrator := NewChatOrcWrapper()
 
-	http.HandleFunc("/chat/create/", withCORS(chatOrchestrator.CreateChatHandler))
-	http.HandleFunc("/chat/", withCORS(chatOrchestrator.GetChatHandler))
-	http.HandleFunc("/chat/join/", chatOrchestrator.JoinChatHandler)
-	http.HandleFunc("/chats", withCORS(chatOrchestrator.GetChatsHandler))
+	http.HandleFunc("api/chat/create/", withCORS(chatOrchestrator.CreateChatHandler))
+	http.HandleFunc("api/chat/", withCORS(chatOrchestrator.GetChatHandler))
+	http.HandleFunc("api/chat/join/", chatOrchestrator.JoinChatHandler)
+	http.HandleFunc("api/chats", withCORS(chatOrchestrator.GetChatsHandler))
 
 	http.HandleFunc("/chat/test", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("Logging all chats!")
@@ -42,11 +42,11 @@ func NewChatOrcWrapper() *ChatOrcWrapper {
 
 func (cow ChatOrcWrapper) CreateChatHandler(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.URL.Path, "/")
-	if len(parts) < 4 {
+	if len(parts) < 5 {
 		http.Error(w, "Failed to read chat name from url", http.StatusBadRequest)
 		return
 	}
-	roomName := parts[3]
+	roomName := parts[4]
 	err := cow.orchestrator.CreateChat(roomName)
 	if err != nil {
 		var chatErr *chat.ApiError
@@ -109,12 +109,12 @@ func (cow ChatOrcWrapper) GetChatHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 	parts := strings.Split(r.URL.Path, "/")
-	if len(parts) < 3 {
+	if len(parts) < 4 {
 		http.Error(w, "Invalid URL", http.StatusBadRequest)
 		return
 	}
 
-	chatInfo, err := cow.orchestrator.GetChatInformation(parts[2])
+	chatInfo, err := cow.orchestrator.GetChatInformation(parts[3])
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -131,12 +131,12 @@ func (cow ChatOrcWrapper) GetChatHandler(w http.ResponseWriter, r *http.Request)
 
 func (cow ChatOrcWrapper) JoinChatHandler(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.URL.Path, "/")
-	if len(parts) < 4 {
+	if len(parts) < 5 {
 		http.Error(w, "Invalid URL", http.StatusBadRequest)
 		log.Fatalf("error invalid url")
 		return
 	}
-	roomName := parts[3]
+	roomName := parts[4]
 	clientName := r.URL.Query().Get("clientName")
 
 	client, err := cow.orchestrator.JoinChat(roomName, clientName, w, r)

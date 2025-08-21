@@ -1,5 +1,5 @@
 export async function createChatApi(chatName: string) {
-  const res = await fetch(`http://localhost:8080/chat/create/${chatName}`, {
+  const res = await fetch(`http://localhost:8080/api/chat/create/${chatName}`, {
     method: 'POST',
   });
 }
@@ -9,7 +9,7 @@ interface ChatsResponse {
 }
 
 export async function fetchChatsApi() {
-  const res = await fetch('http://localhost:8080/chats', {
+  const res = await fetch('http://localhost:8080/api/chats', {
     method: 'GET',
   })
     .then((res) => res.json())
@@ -22,14 +22,14 @@ export async function joinChatApi(
   clientName: string
 ): Promise<WebSocket> {
   const ws = new WebSocket(
-    `ws://localhost:8080/chat/join/${chatName}?clientName=${clientName}`
+    `ws://localhost:8080/api/chat/join/${chatName}?clientName=${clientName}`
   );
 
   return ws;
 }
 
 export async function getChatApi(chatName: string): Promise<ChatInformation> {
-  const chatInfo = await fetch(`http://localhost:8080/chat/${chatName}`, {
+  const chatInfo = await fetch(`http://localhost:8080/api/chat/${chatName}`, {
     method: 'GET',
   })
     .then((res) => res.json())
