@@ -50,11 +50,11 @@ frontend:
       - node_modules/**/*
   EOT
 
-  custom_rule {
-    source = "/<*>"
-    status = "404"
-    target = "/404.html" # Make sure you have a 404.html page in Astro
-  }
+  #custom_rule {
+  #  source = "/<*>"
+  #  status = "404"
+  #  target = "/404.html" # Make sure you have a 404.html page in Astro
+  #}
 
 
   # Static assets - let them pass through normally
@@ -121,8 +121,8 @@ resource "aws_amplify_branch" "main" {
   stage = "PRODUCTION"
 
   environment_variables = {
-    PUBLIC_API_URL     = "https://api.example.com"
-    PUBLIC_BASE_WS_URL = "example.com"
+    PUBLIC_BASE_API_URL = "https://api.example.com"
+    PUBLIC_BASE_WS_URL  = "example.com"
   }
 }
 
