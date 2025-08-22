@@ -23,8 +23,9 @@ provider "aws" {
 
 # Use S3 Backend.
 resource "aws_amplify_app" "homepage" {
-  name       = "martin-homepage"
-  repository = "https://github.com/mr-ando/martin-homepage"
+  name         = "martin-homepage"
+  repository   = "https://github.com/mr-ando/martin-homepage"
+  access_token = var.github_access_token
 
   enable_auto_branch_creation = true
   enable_branch_auto_build    = true
