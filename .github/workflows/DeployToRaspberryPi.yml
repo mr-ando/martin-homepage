@@ -32,8 +32,13 @@ jobs:
     - name: Send greeting
       run: echo "Hello ${{ inputs.name }}"
 
-  deploy:
+  ls-files:
     runs-on: ubuntu-latest
     steps:
-      - name: Build dist files
-        run: npm i
+      - name: ls files
+        run: ls
+  npm-install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: NPM Install
+        run: npm install
