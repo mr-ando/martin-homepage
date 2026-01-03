@@ -19,26 +19,33 @@ on:
         type: string
       
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "greet"
-  greet:
-    # The type of runner that the job will run on
+  build:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    
+    strategy:
+      matrix:
+        node-version: [20.3]  # Adjust to your Node version
+    
     steps:
-    # Runs a single command using the runners shell
-    - name: Send greeting
-      run: echo "Hello ${{ inputs.name }}"
-
-  ls-files:
-    runs-on: ubuntu-latest
-    steps:
-      - name: ls files
-        run: ls
-  npm-install:
-    runs-on: ubuntu-latest
-    steps:
-      - name: NPM Install
-        run: npm install
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'  # Caches npm dependencies
+    
+    - name: Install dependencies
+      run: npm ci  # Use npm ci instead of npm install for CI
+    
+    - name: Build project
+      run: npm run build
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist-files
+        path: dist/
+        retention-days: 7  # How long to keep artifacts
