@@ -1,0 +1,62 @@
+# This is a basic workflow that is manually triggered
+
+name: DeployToRaspberryPi
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      name:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Person to greet'
+        # Default value if no value is explicitly provided
+        default: 'World'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+      
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [20.3]  # Adjust to your Node version
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'  # Caches npm dependencies
+    
+    - name: Install dependencies
+      run: npm ci  # Use npm ci instead of npm install for CI
+    
+    - name: Build project
+      run: npm run build
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist-files
+        path: dist/
+        retention-days: 7  # How long to keep artifacts
+        
+  # Deploy to Raspberry Pi (only on main branch)
+    - name: Deploy to Raspberry Pi
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.PI_HOST }}
+        username: ${{ secrets.PI_USERNAME }}
+        key: ${{ secrets.PI_SSH_KEY }}
+        source: "dist/*"
+        target: ${{ secrets.PI_TARGET_PATH }}
+        strip_components: 1  # Removes 'dist/' from path
