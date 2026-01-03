@@ -49,3 +49,15 @@ jobs:
         name: dist-files
         path: dist/
         retention-days: 7  # How long to keep artifacts
+        
+  # Deploy to Raspberry Pi (only on main branch)
+    - name: Deploy to Raspberry Pi
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.PI_HOST }}
+        username: ${{ secrets.PI_USERNAME }}
+        key: ${{ secrets.PI_SSH_KEY }}
+        source: "dist/*"
+        target: ${{ secrets.PI_TARGET_PATH }}
+        strip_components: 1  # Removes 'dist/' from path
