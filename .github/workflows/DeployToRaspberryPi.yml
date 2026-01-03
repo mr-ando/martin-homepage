@@ -36,4 +36,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build dist files
-        run: npm run build
+        run: npm i
