@@ -52,7 +52,6 @@ jobs:
         
   # Deploy to Raspberry Pi (only on main branch)
     - name: Deploy to Raspberry Pi
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.PI_HOST }}
