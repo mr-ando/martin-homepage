@@ -1,11 +1,31 @@
+---
+import HamburgerMenu from './ui/hamburger/HamburgerMenu.astro';
+
+const links = [
+  { href: '/', label: 'HOME' },
+  { href: 'https://budget.andorsen.dev', label: 'Actual Budget' },
+  { href: '/rtc', label: 'RTC Application' },
+];
+---
+
 <div class="topbar items-center bg-midnight h-20 px-4 py-2 flex">
-  <div class="grow-1 gap-2 flex">
-    <a class="hover:bg-slate-600 rounded bg-slate-800 py-4 px-6" href="/rtc"
-      >RTC Application</a
-    >
-     <a class="hover:bg-slate-600 rounded bg-slate-800 py-4 px-6" href="https://budget.andorsen.dev"
-      >Actual Budget Application</a
-    >
+  <!-- Mobile -->
+  <div class="grow-1 flex md:hidden">
+    <HamburgerMenu links={links} />
   </div>
-  <h1 class="text-2xl">Martin Andorsen og Ylva Dagsdottir</h1>
+
+  <!-- Desktop -->
+  <div class="hidden md:flex grow-1 gap-2">
+    {
+      links.map((link) => (
+        <a
+          class="hover:bg-slate-600 rounded bg-slate-800 py-4 px-6 text-nowrap"
+          href={link.href}
+        >
+          {link.label}
+        </a>
+      ))
+    }
+  </div>
+  <h1 class="text-2xl text-nowrap">Martin Andorsen og Ylva Dagsdottir</h1>
 </div>

@@ -1,0 +1,55 @@
+---
+interface Props {
+  links: Array<{ href: string; label: string }>;
+}
+
+const { links } = Astro.props as Props;
+---
+
+<div class="flex relative">
+  <button id="menu-btn" class="border py-2 px-4 rounded">☰</button>
+  <nav
+    id="menu"
+    class="bg-slate-900 rounded gap-y-2 p-2 flex-col mt-4 hidden absolute top-full text-3xl font-bold"
+  >
+    {
+      links.map((link) => (
+        <a
+          class="hover:bg-slate-600 rounded bg-slate-800 py-2 px-4 text-nowrap"
+          href={link.href}
+        >
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
+</div>
+
+<style>
+  #menu.open {
+    display: flex;
+  }
+</style>
+
+<script>
+  const menuToggle = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+
+  const handleToggle = (e: Event) => {
+    const target = e.target as HTMLElement;
+    if (
+      menu &&
+      menuToggle &&
+      !menu.contains(target) &&
+      !menuToggle.contains(target)
+    ) {
+      menu.classList.remove('open');
+      document.removeEventListener('click', handleToggle);
+    }
+  };
+
+  menuToggle?.addEventListener('click', () => {
+    menu?.classList.toggle('open');
+    document.addEventListener('click', handleToggle);
+  });
+</script>
