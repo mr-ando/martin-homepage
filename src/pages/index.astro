@@ -1,6 +1,43 @@
 ---
+import Link from '../components/ui/link/Link.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
 ---
 
 <SiteLayout />
 
+<div class="h-full gap-2 flex-col flex">
+  <p>
+    This site is hosted on a <Link
+      href="https://www.raspberrypi.com/products/raspberry-pi-5/"
+      label="Raspberry PI 5 (8GB RAM)"
+    />
+    . CloudFlare is used as DNS pointing andorsen.dev and budget.andorsen.dev (Actual
+    Budget) to the raspberry pi IP.
+
+    <p>
+      The raspberry pi uses NGINX as a reverse proxy which points to the static
+      web app or <Link
+        href="https://actualbudget.org/docs/install/docker/"
+        label="Actual Budget application"
+      /> depending on hostname.
+    </p>
+    <p>Certificates and HTTPS is handled by LetsEncrypt and CertBot</p>
+    <p>
+      GitHub Actions is used to build this astro site and ssh into the raspberry
+      pi to download the latest build. This happens automatically on pushes to
+      the main branch.
+    </p>
+    <p>
+      The pi hosts <Link
+        href="https://budget.andorsen.dev"
+        label="Actual Budget"
+      /> which is an open source <Link
+        label="personal finance tool"
+        href="https://github.com/andorsen/actual"
+      /> which is hosted using their <Link
+        label="docker image"
+        href="https://actualbudget.org/docs/install/docker/"
+      />.
+    </p>
+  </p>
+</div>
